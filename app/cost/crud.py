@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from .models import Cost as CostModel
 from .schemas import CreateCost
 
+
 def add_cost(cost: CreateCost, db: Session) -> CostModel:
 
     db_cost = CostModel(**cost.model_dump())
@@ -17,8 +18,8 @@ def get_cost(id: int, db: Session) -> CostModel | None:
     return db_cost
 
 
-def get_costs(db: Session) -> list[CostModel]:
-    return db.query(CostModel).all()
+def get_costs(db: Session, limit:int, skip:int) -> list[CostModel]:
+    return db.query(CostModel).offset(skip).limit(limit).all()
 
 def edit_cost(id: int, now_cost: CreateCost, db: Session) -> CostModel | bool:
     db_cost = get_cost(id, db)

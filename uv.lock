@@ -96,7 +96,9 @@ dependencies = [
     { name = "alembic" },
     { name = "fastapi", extra = ["standard"] },
     { name = "pydantic" },
+    { name = "pydantic-settings" },
     { name = "sqlalchemy" },
+    { name = "uvicorn" },
 ]
 
 [package.metadata]
@@ -104,7 +106,9 @@ requires-dist = [
     { name = "alembic", specifier = ">=1.19.1" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" },
     { name = "pydantic", specifier = ">=2.13.5" },
+    { name = "pydantic-settings", specifier = ">=2.15.0" },
     { name = "sqlalchemy", specifier = ">=2.0.52" },
+    { name = "uvicorn", specifier = ">=0.52.4" },
 ]
 
 [[package]]

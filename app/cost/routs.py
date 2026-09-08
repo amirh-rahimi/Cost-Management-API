@@ -1,31 +1,30 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Path
+from fastapi import APIRouter, Depends, HTTPException, status, Path, Query
 from sqlalchemy.orm import Session
-from src.database import get_db
-from src.schemas import ResponseCost, CreateCost
-from src import crud
+from core.database import get_db
+from cost.schemas import ResponseCost, CreateCost 
+from cost import crud  
 
-app = FastAPI(title="Cost Management")
+router  = APIRouter(prefix="/costs", tags=["costs"])
 
-        
 
-@app.get("/")
-def root():
-    return {"msg": "Welcome"}
-
-@app.post("/cost", response_model=ResponseCost ,status_code=status.HTTP_201_CREATED, tags=["Cost"])
+@router.post("/", response_model=ResponseCost ,status_code=status.HTTP_201_CREATED)
 def creat_cost(cost: CreateCost, db: Session = Depends(get_db)):
 
     cost = crud.add_cost(cost, db)
     return cost
 
 
-@app.get("/costs", response_model=list[ResponseCost], tags=["Cost"])
-def get_costs(db: Session = Depends(get_db)):
-    costs = crud.get_costs(db)
+@router.get("/", response_model=list[ResponseCost])
+def get_costs(
+    limit: int = Query(10, ge=1, le=50),
+    skip: int = Query(0),
+    db: Session = Depends(get_db)):
+
+    costs = crud.get_costs(db, limit, skip)
     return costs
 
 
-@app.get("/cost/{id}", response_model=ResponseCost, tags=["Cost"])
+@router.get("/{id}", response_model=ResponseCost)
 def get_cost(
     id: int = Path(gt=0, description="Cost id"),
     db: Session = Depends(get_db)):
@@ -34,7 +33,7 @@ def get_cost(
     return cost
 
 
-@app.put("/cost/{id}", response_model=ResponseCost, tags=["Cost"])
+@router.put("/{id}", response_model=ResponseCost)
 def edit_cost(
     now_cost: CreateCost,
     db: Session = Depends(get_db),
@@ -49,7 +48,7 @@ def edit_cost(
     return cost
     
 
-@app.delete("/cost/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["Cost"])
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_cost(
     id:int = Path(gt=0, description="Cost id"),
     db: Session = Depends(get_db)):

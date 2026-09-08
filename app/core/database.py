@@ -1,10 +1,10 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from .config import settings
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sqlit.db"
 
 engine = create_engine(
-    url=SQLALCHEMY_DATABASE_URL,
+    url=settings.SQLALCHEMY_DATABASE_URL,
     connect_args={"check_same_thread": False}
 )
 
