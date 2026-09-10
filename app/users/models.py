@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 from passlib.context import CryptContext
 from app.core.database import Base
 
@@ -15,6 +15,8 @@ class User(Base):
     email = Column(String(100), unique=True, nullable=False, index=True)
     hashed_password = Column(String(255), nullable=False)  # هش نهایی در اینجا ذخیره می‌شود
     is_active = Column(Boolean, default=True)  # وضعیت فعال بودن کاربر
+
+    cost = relationship("Cost", back_populates="user")
     
     def set_password(self, plain_password: str) -> None:
         self.hashed_password = pwd_context.hash(plain_password)
