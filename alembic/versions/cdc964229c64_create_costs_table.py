@@ -1,8 +1,8 @@
-"""create Cost table
+"""create costs table
 
-Revision ID: 2f4160628a01
+Revision ID: cdc964229c64
 Revises: 
-Create Date: 2026-09-04 02:39:04.846082
+Create Date: 2026-09-10 13:09:35.650458
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '2f4160628a01'
+revision: str = 'cdc964229c64'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

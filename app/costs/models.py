@@ -1,9 +1,9 @@
 # Database models
 from sqlalchemy import Column, Integer, String
-from core.database import Base
+from app.core.database import Base
 
 class Cost(Base):
     __tablename__ = "costs"
     id = Column(Integer, primary_key=True, index=True)
-    description = Column(String(30)) 
+    description = Column(String(30))
     amount = Column(Integer)

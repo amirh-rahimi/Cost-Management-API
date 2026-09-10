@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Path, Query
 from sqlalchemy.orm import Session
-from core.database import get_db
-from cost.schemas import ResponseCost, CreateCost 
-from cost import crud  
+from app.core.database import get_db
+from .schemas import ResponseCost, CreateCost 
+from . import crud  
 
 router  = APIRouter(prefix="/costs", tags=["costs"])
 

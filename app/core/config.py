@@ -1,14 +1,19 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+
 class Settings(BaseSettings):
+    DATABASE_NAME: str
+
     model_config = SettingsConfigDict(
-        env_file= ".env",        
-        env_file_encoding="utf-8",
-        extra="ignore"
+        env_file=BASE_DIR / ".env"
     )
 
-    SQLALCHEMY_DATABASE_URL: str 
+    @property
+    def database_url(self):
+        return f"sqlite:///{BASE_DIR / self.DATABASE_NAME}"
 
-# یک نمونه از تنظیمات برای استفاده در کل پروژه
+
 settings = Settings()

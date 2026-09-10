@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from cost.routs import router
+from app.costs.routs import router
 
 app = FastAPI(title="Cost Management")
 

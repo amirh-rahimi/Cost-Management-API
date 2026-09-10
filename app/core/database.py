@@ -4,7 +4,7 @@ from .config import settings
 
 
 engine = create_engine(
-    url=settings.SQLALCHEMY_DATABASE_URL,
+    url=settings.database_url,
     connect_args={"check_same_thread": False}
 )
 
