@@ -1,28 +1,33 @@
 from sqlalchemy.orm import Session
+
+from app.users.models import User
 from .models import Cost as CostModel
 from .schemas import CreateCost
 
 
-def add_cost(cost: CreateCost, db: Session) -> CostModel:
+def add_cost(cost: CreateCost, user: User, db: Session) -> CostModel:
 
-    db_cost = CostModel(**cost.model_dump())
+    db_cost = CostModel(**cost.model_dump(), user_id=user.id)
     db.add(db_cost)
     db.commit()
     db.refresh(db_cost)
 
     return db_cost
 
-def get_cost(id: int, db: Session) -> CostModel | None:
+def get_cost(id: int, user: User, db: Session) -> CostModel | None:
 
-    db_cost = db.query(CostModel).filter_by(id=id).one_or_none()
+    db_cost = db.query(CostModel).filter_by(id=id, user_id=user.id).one_or_none()
     return db_cost
+
+def get_costs_by_user(user: User, db: Session) -> list[CostModel]:
+    return db.query(CostModel).filter_by(user_id=user.id).all()
 
 
 def get_costs(db: Session, limit:int, skip:int) -> list[CostModel]:
     return db.query(CostModel).offset(skip).limit(limit).all()
 
-def edit_cost(id: int, now_cost: CreateCost, db: Session) -> CostModel | bool:
-    db_cost = get_cost(id, db)
+def edit_cost(id: int, now_cost: CreateCost, user: User, db: Session) -> CostModel | bool:
+    db_cost = get_cost(id, user, db)
     if db_cost is None:
         return False
 
@@ -34,8 +39,8 @@ def edit_cost(id: int, now_cost: CreateCost, db: Session) -> CostModel | bool:
     return db_cost
 
 
-def delete_cost(id: int, db: Session) -> bool:
-    db_cost = get_cost(id, db)
+def delete_cost(id: int, user: User, db: Session) -> bool:
+    db_cost = get_cost(id, user, db)
     if db_cost is None:
         return False
 

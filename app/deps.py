@@ -5,7 +5,7 @@ from app.core.database import get_db
 from sqlalchemy.orm import Session
 
 async def get_current_user(
-    access_token: str|None = Cookie("access_token"),
+    access_token: str|None = Cookie(default=None, alias="access_token"),
     db: Session = Depends(get_db)
 ) -> User:
     if access_token is None:

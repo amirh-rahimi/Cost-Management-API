@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from app.costs.routs import router as router_cost
 from app.users.auth import router as router_auth
+from app.users.routs import router as router_user
+
 app = FastAPI(title="Cost Management")
 
 @app.get("/")
@@ -8,7 +10,7 @@ def root():
     return {"msg": "Wellcom"}
 
 app.include_router(router_cost)
-#app.include_router(router_user)
+app.include_router(router_user)
 app.include_router(router_auth)
 
 

@@ -6,7 +6,7 @@ OnlyLetters = Annotated[str, Field(pattern=r'^[A-Za-z\u0600-\u06FF\s]+$', max_le
 
 class CostBase(BaseModel):
     description: OnlyLetters                                        
-    amount: int
+    amount: float = Field(..., gt=0, description="The amount must be greater than 0")
 
 
 class ResponseCost(CostBase):
