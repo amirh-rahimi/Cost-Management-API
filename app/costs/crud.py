@@ -19,12 +19,9 @@ def get_cost(id: int, user: User, db: Session) -> CostModel | None:
     db_cost = db.query(CostModel).filter_by(id=id, user_id=user.id).one_or_none()
     return db_cost
 
-def get_costs_by_user(user: User, db: Session) -> list[CostModel]:
-    return db.query(CostModel).filter_by(user_id=user.id).all()
 
-
-def get_costs(db: Session, limit:int, skip:int) -> list[CostModel]:
-    return db.query(CostModel).offset(skip).limit(limit).all()
+def get_costs(db: Session, user: User, limit:int, skip:int) -> list[CostModel]:
+    return db.query(CostModel).filter_by(user_id=user.id).offset(skip).limit(limit).all()
 
 def edit_cost(id: int, now_cost: CreateCost, user: User, db: Session) -> CostModel | bool:
     db_cost = get_cost(id, user, db)

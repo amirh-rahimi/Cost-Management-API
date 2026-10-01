@@ -6,7 +6,7 @@ from app.core.database import Base
 class Cost(Base):
     __tablename__ = "costs"
     id = Column(Integer, primary_key=True, index=True)
-    description = Column(String(30))
+    description = Column(String(100))
     amount = Column(Float)
     user_id = Column(Integer, ForeignKey("users.id"))
 

@@ -69,6 +69,8 @@ async def login(
 @router.post("/refresh", response_model=dict[str,str])
 async def refresh(response: Response ,token: str|None = Cookie(default=None, alias="refresh_token")):
     payload = decode_token(token=token)
+    if payload["type"] != "refresh":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token type")
     if payload is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 

@@ -8,6 +8,7 @@ async def get_current_user(
     access_token: str|None = Cookie(default=None, alias="access_token"),
     db: Session = Depends(get_db)
 ) -> User:
+
     if access_token is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -15,6 +16,11 @@ async def get_current_user(
         )
 
     payload = decode_token(access_token)
+    if payload["type"] != "access":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token type",
+        )
     if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

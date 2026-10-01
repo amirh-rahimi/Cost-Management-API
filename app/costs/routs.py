@@ -19,11 +19,11 @@ def creat_cost(cost: CreateCost, db: Session = Depends(get_db), user: User = Dep
 @router.get("/", response_model=list[ResponseCost])
 def get_costs(
     limit: int = Query(10, ge=1, le=50),
-    skip: int = Query(0),
+    skip: int = Query(0, ge=0),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user)):
 
-    costs = crud.get_costs_by_user(user, db)
+    costs = crud.get_costs(db, user,limit, skip)
     return costs
 
 
